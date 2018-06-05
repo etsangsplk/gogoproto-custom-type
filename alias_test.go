@@ -15,14 +15,17 @@ func TestMarshal(t *testing.T) {
 		obj *jsontest.Simple
 		out string
 	}{
-		{&jsontest.Simple{Val: 0x42}, `{"val":"42"}`},
+		{&jsontest.Simple{Val: 0x42}, `{"first":"00000000000000000000000000000000","val":"42"}`},
+		{&jsontest.Simple{Val: 0x42f}, `{"first":"00000000000000000000000000000000","val":"42f"}`},
 	}
 	for _, test := range tests {
-		out := new(bytes.Buffer)
-		require.NoError(t, new(jsonpb.Marshaler).Marshal(out, test.obj))
-		assert.Equal(t, test.out, out.String())
-		var val jsontest.Simple
-		require.NoError(t, jsonpb.Unmarshal(bytes.NewReader([]byte(test.out)), &val))
-		assert.Equal(t, *test.obj, val)
+		t.Run(test.out, func(t *testing.T) {
+			out := new(bytes.Buffer)
+			require.NoError(t, new(jsonpb.Marshaler).Marshal(out, test.obj))
+			assert.Equal(t, test.out, out.String())
+			var val jsontest.Simple
+			require.NoError(t, jsonpb.Unmarshal(bytes.NewReader([]byte(test.out)), &val))
+			assert.Equal(t, *test.obj, val)
+		})
 	}
 }
