@@ -51,3 +51,12 @@ message Simple {
     (gogoproto.customtype) = "Uint64Alias" 
   ];
 }
+
+// Same as Simple but without AStruct at the beginning.
+message Simple2 {
+    uint64 val = 1 [
+      (gogoproto.nullable) = false,
+      (gogoproto.customtype) = "Uint64Alias" 
+    ];
+  }
+  

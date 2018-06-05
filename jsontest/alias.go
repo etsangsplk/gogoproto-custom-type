@@ -12,7 +12,6 @@ type Uint64Alias uint64
 
 // MarshalJSON renders uint as a single hex string. The value is returned enclosed in quotes.
 func (t Uint64Alias) MarshalJSON() ([]byte, error) {
-	println("Uint64Alias.MarshalJSON called")
 	return []byte(fmt.Sprintf(`"%x"`, t)), nil
 }
 
@@ -51,13 +50,11 @@ func fromString(s string) (Uint64Alias, error) {
 
 // MarshalJSONPB renders struct as a single hex string. The value is returned enclosed in quotes.
 func (t AStruct) MarshalJSONPB(*jsonpb.Marshaler) ([]byte, error) {
-	println("AStruct.MarshalJSON called")
 	return []byte(`"` + t.String() + `"`), nil
 }
 
 // UnmarshalJSONPB is fake, always returns empty struct for now.
 func (t *AStruct) UnmarshalJSONPB(_ *jsonpb.Unmarshaler, b []byte) error {
-	println("AStruct.UnmarshalJSONPB called")
 	*t = AStruct{}
 	return nil
 }
