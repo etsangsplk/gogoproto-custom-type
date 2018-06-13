@@ -31,32 +31,19 @@
 
 syntax = "proto3";
 
-package jsontest;
+package model;
 
 import "github.com/gogo/protobuf/gogoproto/gogo.proto";
 
-message AStruct {
-  option (gogoproto.goproto_stringer) =  false;
-
-  uint64 high = 1;
-  uint64 low = 2;
-}
-
-message Simple {
-  AStruct first = 1 [
-    (gogoproto.nullable) = false
-  ];
-  uint64 val = 2 [
+message Span {
+  bytes trace_id = 1 [
     (gogoproto.nullable) = false,
-    (gogoproto.customtype) = "Uint64Alias" 
+    (gogoproto.customtype) = "TraceID",
+    (gogoproto.customname) = "TraceID"
+  ];
+  bytes span_id = 2 [
+    (gogoproto.nullable) = false,
+    (gogoproto.customtype) = "SpanID",
+    (gogoproto.customname) = "SpanID"
   ];
 }
-
-// Same as Simple but without AStruct at the beginning.
-message Simple2 {
-    uint64 val = 1 [
-      (gogoproto.nullable) = false,
-      (gogoproto.customtype) = "Uint64Alias" 
-    ];
-  }
-  
